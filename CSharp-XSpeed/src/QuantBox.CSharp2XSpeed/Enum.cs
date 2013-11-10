@@ -9,11 +9,11 @@ namespace QuantBox.CSharp2XSpeed
     public enum DFITCExecStateType : int
     {
         /// <summary>
-        /// 买
+        /// 成功
         /// </summary>
         SUCCESS = 0,
         /// <summary>
-        /// 买
+        /// 失败
         /// </summary>
         FAIL = 1,
     }
@@ -23,6 +23,10 @@ namespace QuantBox.CSharp2XSpeed
     /// </summary>
     public enum DFITCBuySellTypeType:short
     {
+        /// <summary>
+        /// 双边，做市商操作特有字段
+        /// </summary>
+        ALL = 0,
         /// <summary>
         /// 买
         /// </summary>
@@ -54,6 +58,10 @@ namespace QuantBox.CSharp2XSpeed
         /// 期权执行
         /// </summary>
         EXECUTE = 6,
+        /// <summary>
+        /// 询价
+        /// </summary>
+        QUOTE = 9,
     }
 
     /// <summary>
@@ -376,5 +384,35 @@ namespace QuantBox.CSharp2XSpeed
         /// 表示指定客户
         /// </summary>
         ACCOUNT_ID_MSG = 2
+    }
+
+    /// <summary>
+    /// DFITCSubscribeFlagType:订阅状态
+    /// </summary>
+    public enum DFITCSubscribeFlagType : short
+    {
+        /// <summary>
+        /// 订阅成功
+        /// </summary>
+        QUOTE_SUB_SUCCESS = 0,
+        /// <summary>
+        /// 订阅失败
+        /// </summary>
+        QUOTE_SUB_FAILED = 1
+    }
+
+    /// <summary>
+    /// DFITCSourceType:来源
+    /// </summary>
+    public enum DFITCSourceType : short
+    {
+        /// <summary>
+        /// 会员
+        /// </summary>
+        SOURCE_MEMBER = 0,
+        /// <summary>
+        /// 交易所
+        /// </summary>
+        SOURCE_EXCHANGE = 1
     }
 }

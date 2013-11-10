@@ -31,6 +31,9 @@ class CTraderApi :
 		E_PositionDetailField,
 		E_SpecificInstrumentField,
 		E_UserLoginField,
+		E_QuoteSubscribeField,
+		E_QuoteInsertOrderField,
+		E_QuoteCancelOrderField,
 	};
 
 	//请求数据包结构体
@@ -69,6 +72,25 @@ public:
 		DFITCLocalOrderIDType localOrderID,
 		DFITCSPDOrderIDType spdOrderID);
 
+	long ReqQuoteInsertOrder(
+			long localOrderID,
+			const string& szInstrumentId,
+			const string& quoteID,
+			DFITCAmountType bOrderAmount,
+			DFITCAmountType sOrderAmount,
+			DFITCPriceType bInsertPrice,
+			DFITCPriceType sInsertPrice,
+			DFITCOpenCloseTypeType bOpenCloseType,
+			DFITCOpenCloseTypeType sOpenCloseType,
+			DFITCSpeculatorType bSpeculator,
+			DFITCSpeculatorType sSpeculator,
+			DFITCStayTimeType stayTime,
+			DFITCInstrumentTypeType nInstrumentType);
+	void ReqQuoteCancelOrder(
+		const string& szInstrumentId,
+		DFITCLocalOrderIDType localOrderID,
+		DFITCSPDOrderIDType spdOrderID);
+
 	void ReqQryMatchInfo(DFITCInstrumentTypeType instrumentType);
 	void ReqQryOrderInfo(DFITCInstrumentTypeType instrumentType);
 	void ReqQryCustomerCapital();
@@ -77,6 +99,7 @@ public:
 	void ReqQryExchangeInstrument(const string& szExchangeId,DFITCInstrumentTypeType instrumentType);
 	void ReqQryArbitrageInstrument(const string& szExchangeId);
 	void ReqQrySpecifyInstrument(const string& szInstrumentId,const string& szExchangeId,DFITCInstrumentTypeType instrumentType);
+	void ReqQuoteSubscribe();
 
 private:
 	//数据包发送线程
@@ -149,6 +172,14 @@ private:
     virtual void OnRspQryBill(struct DFITCQryBillRtnField *pQryBill, struct DFITCErrorRtnField * pErrorInfo, bool bIsLast);
     virtual void OnRspConfirmProductInfo(struct DFITCProductRtnField * pProductRtnData);
     virtual void OnRspTradingDay(struct DFITCTradingDayRtnField * pTradingDayRtnData);
+
+	// 做市商
+	virtual void OnRspQuoteSubscribe(struct DFITCQuoteSubscribeRspField * pRspQuoteSubscribeData);
+	virtual void OnRtnQuoteSubscribe(struct DFITCQuoteSubscribeRtnField * pRtnQuoteSubscribeData);
+	virtual void OnRspQuoteInsertOrder(struct DFITCQuoteOrderRspField * pRspQuoteOrderData, struct DFITCErrorRtnField * pErrorInfo);
+	virtual void OnRtnQuoteOrder(struct DFITCQuoteOrderRtnField * pRtnQuoteOrderData);
+	virtual void OnRspQuoteCancelOrder( struct DFITCQuoteOrderRspField * pRspQuoteCanceledData,struct DFITCErrorRtnField * pErrorInfo);
+	virtual void OnRtnQuoteCancelOrder(struct DFITCQuoteCanceledRtnField * pRtnQuoteCanceledData);   
 
 private:
 	ConnectionStatus			m_status;				//连接状态
